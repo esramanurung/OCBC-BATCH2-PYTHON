@@ -8,6 +8,7 @@ from models import (
     PersonSchema,
 )
 
+
 def read_all():
     """
     This function responds to a request for /api/people
@@ -21,8 +22,9 @@ def read_all():
         .all()
 
     # Serialize the data for the response
-    person_schema = PersonSchema(many=True) # untuk data lebih dari satu set ---> many=true
-    #return person_schema.dump(people).data
+    # untuk data lebih dari satu set ---> many=true
+    person_schema = PersonSchema(many=True)
+    # return person_schema.dump(people).data
     return person_schema.dump(people)
 
 
@@ -44,13 +46,13 @@ def read_one(person_id):
 
         # Serialize the data for the response
         person_schema = PersonSchema()
-        #return person_schema.dump(person).data
+        # return person_schema.dump(person).data
         return person_schema.dump(person)
 
     # Otherwise, nope, didn't find that person
     else:
-        abort(404, 'Person not found for Id: {person_id}'.format(person_id=person_id))
-
+        abort(404, 'Person not found for Id: {person_id}'.format(
+            person_id=person_id))
 
 
 def create(person):
@@ -82,8 +84,8 @@ def create(person):
         db.session.commit()
 
         # Serialize and return the newly created person in the response
-        #return schema.dump(new_person).data, 201
-        #return schema.dump(new_person), 201
+        # return schema.dump(new_person).data, 201
+        # return schema.dump(new_person), 201
 
         data = schema.dump(new_person)
         return data, 201
@@ -91,7 +93,6 @@ def create(person):
     # Otherwise, nope, person exists already
     else:
         abort(409, f'Person {fname} {lname} exists already')
-
 
 
 def update(person_id, person):
@@ -153,7 +154,6 @@ def update(person_id, person):
         # return updated person in the response
         data = schema.dump(update_person)
 
-        
         return data, 200
 
 
